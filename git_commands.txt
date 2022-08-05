@@ -1,0 +1,20 @@
+501  echo "# TFP-567-Arithmatic_Computation_and_Sorting" >> README.md
+  502  git init
+  503  git status
+  504  git add .
+  505  git commit -m "Added: Initial Files Which Contain Project Details."
+  506  git remote add origin https://github.com/dc7875/TFP-567-Arithmatic_Computation_and_Sorting.git
+  507  git push -u origin master
+  508  git branch -m UC1_UserInput
+  509  notepad SortingArray.sh
+  510  git status
+  511  git add .
+  512  git commit -m "Take three user inputs."
+513 git push -u UC1
+Durgesh Chavan8:17 PM
+512  git commit -m "Take three user inputs."
+  513  git push -u origin UC1_UserInput
+  514  git checkout master
+  515  git branch
+  516  git merge UC1_UserInput
+  517  git push -u origin

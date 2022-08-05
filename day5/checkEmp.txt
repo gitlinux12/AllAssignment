@@ -1,0 +1,9 @@
+#!/bin/bash
+
+EMP_WAGE_PER_HOUR=20;
+PRESENT=1;
+WORKING_HOUR=8;
+
+isPresent=$(())
+
+type=ctrl+c

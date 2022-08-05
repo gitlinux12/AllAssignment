@@ -1,0 +1,72 @@
+USE [WYHUAT_db]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PushNotification_Chassis]    Script Date: 05-08-2022 14:49:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec SP_PushNotification_Chassis 'G2C67881','abc@mahindra.com','BOLERO','UP32DG2061'
+
+ALTER PROCEDURE [dbo].[SP_PushNotification_Chassis]
+	@ChassisNumber nvarchar(50)=null,
+	--@UserRegId bigint=null,
+	--@UserName Nvarchar(max)=null,
+	
+	@isException int=3 out,
+	@exceptionMessage varchar(max)='' out
+	--,@Count int=0 out
+
+AS
+BEGIN
+	Declare @id int
+	--CREATE table #Temp (Id int , ChassisNo nvarchar(50), Model nvarchar(50), Registeration nvarchar(50),Email nvarchar(50))
+	set @id=(select isnull(max(Id),0) from T_ExcelUpload)
+	set @id=@id+1;
+
+	IF Exists(Select * from T_ChasisMapping where ChassisNumber=@ChassisNumber)
+	BEGIN
+	IF Exists(select DeviceId from T_UserDeviceId UD inner join T_ChasisMapping CM on CM.UserRegId=UD.UserRegId where CM.ChassisNumber=@ChassisNumber
+)
+BEGIN
+--Delete from T_ExcelUpload
+	INSERT INTO [dbo].[T_ExcelUpload]
+           ([Id]
+           ,[ChassisNo]
+          )
+     VALUES(@id,@ChassisNumber)
+	
+	SET @exceptionMessage='Success! User Details  have been inserted successfully'
+	END
+	--SET @Count=(Select count(*) from T_ExcelUpload)
+	End
+	else
+	SET @isException=0;
+	SET @exceptionMessage='Chassis No is not exist'
+	--Select * into T_ExcelUpload from #Temp
+	--Drop Table #Temp
+END
+
+
+
+
+
+-----Table------
+USE [WYHUAT_db]
+GO
+
+/****** Object:  Table [dbo].[T_ExcelUpload]    Script Date: 05-08-2022 14:51:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_ExcelUpload](
+	[Id] [int] NULL,
+	[ChassisNo] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+
+
+
+	
