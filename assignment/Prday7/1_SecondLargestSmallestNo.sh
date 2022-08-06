@@ -1,29 +1,69 @@
-#!/bin/bash
+# create array, search second largest and second smallet number without sorting the array.
 
-for ((i=0;i<10;i++))
-do
-	arr[$i]=$((RANDOM%900+100));
-done
+#generating random number
+function randomNum() {
+	minLimit=100
+	maxLimit=1000
+	randomNumber=$(((RANDOM%(maxLimit-minLimit))+minLimit))
+	echo $randomNumber
+}
 
-echo ${arr[@]};
-
-echo "-------After Sorting---------";
-
-for ((i=0;i<${#arr[@]}-1;i++))
-do
-	for((j=i+1;j<${#arr[@]};j++))
+#creating an Array of random number
+function arrayCreation() {
+	counter=0
+	for (( counter=0; counter<10; counter++ ))
 	do
-		if [ ${arr[i]} -gt ${arr[j]} ]
+		random=$( randomNum )
+		randomNumberArray[$counter]=$random
+	done
+	echo "Array: ${randomNumberArray[@]}"
+}
+
+function secondLargest() {
+	largest=0
+	secondLargest=0
+	for (( arr=0; arr<$arrLength; arr++ ))
+	do
+		arrayValue=${randomNumberArray[arr]}
+		if [ $arrayValue -gt $largest ]
 		then
-			temp=${arr[i]};
-			arr[$i]=${arr[j]};
-			arr[$j]=$temp;
+			secondLargest=$largest
+			largest=$arrayValue
+		elif [ $arrayValue -gt $secondLargest -a $arrayValue -ne $largest ]
+		then
+			secondLargest=$arrayValue 
 		fi
 	done
-done
+	echo "secondLargest: $secondLargest"
+}
 
-echo ${arr[@]};
+function secondSmallest() {
+	#echo "${randomNumberArray[@]}"
+	smallest=1000
+	secondSmallest=1000
+	for (( arr=0; arr<$arrLength; arr++ ))
+	do
+		arrayValue=${randomNumberArray[arr]}
+		if [ $arrayValue -lt $smallest ]
+		then
+			secondSmallest=$smallest
+			smallest=$arrayValue
+		elif [ $arrayValue -lt $secondSmallest -a $arrayValue -ne $smallest ]
+		then
+			secondSmallest=$arrayValue 
+		fi
+	done
+	echo "secondSmallest: $secondSmallest"
+}
 
-secondSmallest=${arr[1]}; 
+#Invoke/call function "arrayCreation"
+arrayCreation
 
-echo "Second Smallest: $secondSmallest";
+#length of an array
+arrLength=${#randomNumberArray[@]}
+
+#Invoke/call function "secondLargest"
+secondLargest
+
+#Invoke/call function "secondSmallest"
+secondSmallest

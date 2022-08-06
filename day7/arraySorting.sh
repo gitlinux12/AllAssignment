@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# arraySorting
 for((i=0;i<10;i++))
 do
 	arr[$i]=$((RANDOM%900+100));
